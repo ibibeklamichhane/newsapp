@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, {useState,useEffect} from "react"
 import NewsItem from "./NewsItem";
 import Spinner from "./spinner";
 import PropTypes from "prop-types";
@@ -7,7 +7,7 @@ const News = (props) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([]);
-  const [totalResults, setTotalResults] = useState(0);
+ 
 
 
   
@@ -18,8 +18,8 @@ const updateNews = async () => {
       props.country
     }&category=${
       props.category
-    }&apiKey=98a7ae5e7fac41ad9bca57ca0111e4f2&page=${
-      setPage + 1
+    }&apiKey=${props.api}&page=${
+      page
     }&pagesize=${props.pageSize}`;
     setLoading({ loading: true });
     let data = await fetch(url);
@@ -29,7 +29,7 @@ const updateNews = async () => {
     props.setProgress(70);
 
     setArticles(parsedData.articles);
-    setTotalResults(parsedData.totalResults);
+
     setLoading(false);
      
   
@@ -38,8 +38,7 @@ const updateNews = async () => {
 
   useEffect(() => {
     updateNews();
-
-  } ,[])
+}, [])
 
   //adding previous and next page functionality
 
@@ -48,7 +47,7 @@ const updateNews = async () => {
     setPage(page+1);
     updateNews();
    
-  };
+  }
    const previousPage = async () => {
       
       setPage(page-1);
@@ -58,7 +57,7 @@ const updateNews = async () => {
   
 
    
-  };
+  }
 
   return (
       <div className="container my-3">
@@ -66,8 +65,7 @@ const updateNews = async () => {
 
         {loading && <Spinner />}
         <div className="row">
-          {loading &&
-            articles.map((element) => {
+          {articles.map((element) => {
               return (
                 <div className="col-md-4" key={element.url}>
                   <NewsItem
